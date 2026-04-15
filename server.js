@@ -1,5 +1,5 @@
 // Permet de charger les variables d'environnement depuis .env
-require("dotenv").congig();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -19,13 +19,13 @@ const app = express();
 
 // MIDDLEWARE
 // Parser les JSON
-/*code*/
+app.use(express.json());
 
 // Logger de requêtes HTTP dans la console
-/*code*/
+app.use(morgan("dev"));
 
 // Sert les fichiers statiques (images, produits)
-/*code*/
+app.use(express.static("public"));
 
 // CORS = Cross-Origin Ressource Sharing
 // Permet les requêtes cross-origin (qui viennent du front)
@@ -41,7 +41,7 @@ app.use(
 );
 
 // Parse les cookies dans req
-/*code*/
+app.use(cookieParser());
 
 // ROUTES
 
