@@ -31,7 +31,7 @@ const createUtilisateur = async (utilisateurData) => {
         mot_de_passe
     } = utilisateurData;
 
-    const [result] = await db.jquery(
+    const [result] = await db.query(
         `INSERT INTO utilisateur
         (nom_utilisateur, prenom_utilisateur, email_utilisateur, mdp_utilisateur)
     VALUE (?, ?, ?, ?)`,
