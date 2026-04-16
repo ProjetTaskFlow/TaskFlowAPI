@@ -4,18 +4,19 @@ const { getAllProjets, getProjetById, searchProjets } = require("../models/Proje
 // Récupérer tous les projets
 const getAll = async (req, res) => {
     try {
-        const {search, limit} = req.query;
+        const { search, limit } = req.query;
+        let projets;
 
         if (search && search.trim().length >= 2) {
-            const projets = await searchProjets(search.trim(), parseInt(limit) || 5);
-            return res.json({ projets })
+            projets = await searchProjets(search.trim(), parseInt(limit) || 5);
         } else {
             projets = await getAllProjets();
         }
-        const projets = await getAllProjets();
+
         res.json({
             message: "Projets récupérés avec succès",
             count: projets.length,
+            projets,
         });
         } catch (error) {
         console.error("Erreur de récupération des projets", error.message);
