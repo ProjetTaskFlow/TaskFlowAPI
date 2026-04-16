@@ -1,4 +1,4 @@
-// Controller Utilisateeur
+// Controller Utilisateur
 
 const {
     createUtilisateur,
@@ -15,6 +15,7 @@ const register = async (req, res) => {
         const { nom, prenom, email, mot_de_passe } = req.body;
 
         // Vérifier si l'email existe déjà
+        const existingUtilisateur = await findUtilisateurByEmail(email);
         if (existingUtilisateur.length > 0) {
             return res.status(400).send({
                 message : "Cet email est déjà utilisé",
@@ -26,10 +27,10 @@ const register = async (req, res) => {
 
         // Crée l'utilisateur
         const result = await createUtilisateur({
-            nom,
-            prenom,
-            email,
-            mot_de_passe: hash,
+            nom_utilisateur: nom,
+            prenom_utilisateur: prenom,
+            email_utilisateur: email,
+            mdp_utilisateur: hash,
         });
 
         res.status(201).json({

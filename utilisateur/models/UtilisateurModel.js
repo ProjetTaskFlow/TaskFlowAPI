@@ -30,18 +30,18 @@ const createUtilisateur = async (utilisateurData) => {
         mdp_utilisateur,
     } = utilisateurData;
 
-    const [result] = await db.jquery(
+    const [result] = await db.query(
         `INSERT INTO utilisateur
         (nom_utilisateur, prenom_utilisateur, email_utilisateur, mdp_utilisateur)
-    VALUE (?, ?, ?, ?)`,
+    VALUES (?, ?, ?, ?)`,
         [
-            nom,
-            prenom,
-            email,
-            mot_de_passe,
+            nom_utilisateur,
+            prenom_utilisateur,
+            email_utilisateur,
+            mdp_utilisateur
         ],
     );
-    return resultat;
+    return result;
 };
 
 // Hacher un mdp
@@ -50,7 +50,7 @@ const hashPassword = async (password) => {
    return await bcrypt.hash(password, rounds);
 };
 
-// Comparer un mot de passe n
+// Comparer un mot de passe
 const comparePassword = async (password, hash) => {
     return await bcrypt.compare(password, hash);
 };
