@@ -9,6 +9,6 @@ const router = express.Router();
 router.get("/", getAll);
 
 // GET /api/projets/:id - Récupérer un projet par son ID
-router.get('/:id', getById);
+router.get('/:id/projet', getById);
 
 module.exports = router;
