@@ -85,3 +85,15 @@ const updateTask = async (Id_tache, taskData) => {
 };
 
 // Supprimer tâche
+const deleteTask = async (Id_tache) => {
+    const [result] = await db.query(
+        `DELETE FROM taches WHERE Id_tache = ?`,
+        [Id_tache]
+    );
+
+    if (result.affectedRows === 0) {
+        return null;
+    }
+
+    return result;
+}
