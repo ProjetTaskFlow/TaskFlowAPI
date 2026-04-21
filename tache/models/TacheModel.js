@@ -48,4 +48,40 @@ const createTask = async ({ nom_tache, description, statut, Id_projet, Id_utilis
     return rows[0];
 };
 
-module.exports = { getAllTasks, getTaskById, searchTasks, getTasksByProjetId, createTask };
+// Modifier une tâche
+const updateTask = async (id, { nom_tache, description, statut, Id_utilisateur, date_echeance, temps_prevu, temps_reel }) => {
+    await db.query(
+        `UPDATE taches SET nom_tache = ?, description = ?, statut = ?, Id_utilisateur = ?, date_echeance = ?, temps_prevu = ?, temps_reel = ?
+         WHERE Id_tache = ?`,
+        [nom_tache, description, statut, Id_utilisateur || null, date_echeance || null, temps_prevu || null, temps_reel || null, id]
+    );
+    const [rows] = await db.query(
+        "SELECT * FROM taches WHERE Id_tache = ?",
+        [id]
+    );
+    return rows[0];
+};
+
+// Supprimer une tâche
+const deleteTask = async (id) => {
+    const [result] = await db.query(
+        "DELETE FROM taches WHERE Id_tache = ?",
+        [id]
+    );
+    return result;
+};
+
+// Mettre à jour le statut
+const updateStatutTask = async (id, statut) => {
+    await db.query(
+        "UPDATE taches SET statut = ? WHERE Id_tache = ?",
+        [statut, id]
+    );
+    const [rows] = await db.query(
+        "SELECT * FROM taches WHERE Id_tache = ?",
+        [id]
+    );
+    return rows[0];
+};
+
+module.exports = { getAllTasks, getTaskById, searchTasks, getTasksByProjetId, createTask, updateTask, deleteTask, updateStatutTask };

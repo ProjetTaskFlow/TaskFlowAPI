@@ -14,4 +14,13 @@ router.get("/:id", getTByID);
 // POST /api/taches - Créer une tâche
 router.post("/", create);
 
+// PUT /api/taches/:id - Modifier une tâche
+router.put("/:id", update);
+
+// DELETE /api/taches/:id - Supprimer une tâche
+router.delete("/:id", remove);
+
+// PATCH /api/taches/:id - Mettre à jour le statut
+router.patch("/:id", updateStatut);
+
 module.exports = router;
