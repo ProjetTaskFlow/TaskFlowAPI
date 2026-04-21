@@ -1,5 +1,4 @@
 // Models Projets
-
 const db = require("../../db");
 
 // Récupérer tous les projets

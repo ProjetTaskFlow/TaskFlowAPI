@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 // Rechercher un utilisateur par son ID
 const findUtilisateurById = async (id) => {
     const [rows] = await db.query(
-        "SELECT *, Id_utilisateur as is_utilisateur FROM utilisateur WHERE Id_utilisateur = ?",
+        "SELECT * FROM utilisateur WHERE Id_utilisateur = ?",
         [id]
     );
     return rows;
@@ -15,7 +15,7 @@ const findUtilisateurById = async (id) => {
 // Rechercher un utilisateur par son email
 const findUtilisateurByEmail = async (email) => {
     const [rows] = await db.query(
-        "SELECT *, Id_utilisateur as id_utilisateur FROM utilisateur WHERE email_utilisateur = ?",
+        "SELECT * FROM utilisateur WHERE email_utilisateur = ?",
         [email],
     );
     return rows;
@@ -23,11 +23,12 @@ const findUtilisateurByEmail = async (email) => {
 
 // Créer un nouvel utilisateur
 const createUtilisateur = async (utilisateurData) => {
+    // Extraction des données
     const {
-        nom_utilisateur,
-        prenom_utilisateur,
-        email_utilisateur,
-        mdp_utilisateur,
+        nom,
+        prenom,
+        email,
+        mot_de_passe
     } = utilisateurData;
 
     const [result] = await db.query(

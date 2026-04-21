@@ -43,7 +43,7 @@ const db = mysql.createPool({
         console.error("Erreur de connexion à MySQL : ", error.message);
 
         // Arrête l'application avec un cde erreur 1
-        process.Exit(1);
+        process.exit(1);
     }
 })();
 
