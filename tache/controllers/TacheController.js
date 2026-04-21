@@ -1,6 +1,6 @@
 // Controller Tâches
 
-const { getAllTasks, searchTasks, getTaskById } = require("../Models/TacheModel.js");
+const { getAllTasks, searchTasks, getTaskById, getTasksByProjetId, createTask } = require("../Models/TacheModel.js");
 
 // Récupérer toutes les tâches
 const getAllt = async (req, res) => {
@@ -45,6 +45,39 @@ const getTByID = async (req, res) => {
     }
 }
 
+// Récupérer les tâches d'un projet groupées par statut
+const getAllByProjet = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const taches = await getTasksByProjetId(id);
 
-module.exports = { getAllt, getTByID };
+        res.json({
+            message: "Tâches récupérées avec succès",
+            count: taches.length,
+            taches,
+        });
+    } catch (error) {
+        console.error("Erreur de récupération des tâches du projet", error.message);
+        res.status(500).json({ message: "Erreur de récupération des tâches du projet" });
+    }
+};
+
+// Créer une tâche
+const create = async (req, res) => {
+    try {
+        const { nom_tache, description, statut, Id_projet, Id_utilisateur, date_echeance, temps_prevu } = req.body;
+
+        const tache = await createTask({ nom_tache, description, statut, Id_projet, Id_utilisateur, date_echeance, temps_prevu });
+
+        res.status(201).json({
+            message: "Tâche créée avec succès",
+            tache,
+        });
+    } catch (error) {
+        console.error("Erreur de création de la tâche", error.message);
+        res.status(500).json({ message: "Erreur de création de la tâche" });
+    }
+};
+
+module.exports = { getAllt, getTByID, getAllByProjet, create };
