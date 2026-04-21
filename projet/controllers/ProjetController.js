@@ -46,7 +46,28 @@ const getById = async (req, res) => {
     }
 };
 
-module.exports = { getAll, getById };
+// Créer un projet
+const create = async (req, res) => {
+    try {
+        const { titre, description, date_debut, date_echeance, Id_utilisateur } = req.body;
+
+        if (!titre || !Id_utilisateur) {
+            return res.status(400).json({ message: "titre et Id_utilisateur sont requis" });
+        }
+
+        const projet = await createProjet({ titre, description, date_debut, date_echeance, Id_utilisateur });
+
+        res.status(201).json({
+            message: "Projet créé avec succès",
+            projet,
+        });
+    } catch (error) {
+        console.error("Erreur de création du projet", error.message);
+        res.status(500).json({ message: "Erreur de création du projet" });
+    }
+};
+
+module.exports = { getAll, getById, create };
 
 
 
