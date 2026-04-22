@@ -2,7 +2,7 @@
 // chemin : /api/taches
 
 const express = require("express");
-const { getAllByProjet, getTByID, create } = require("../controllers/TacheController");
+const { getAllByProjet, getTByID, create, update, remove, updateStatut } = require("../controllers/TacheController");
 const router = express.Router();
 
 // GET /api/taches/projet/:id - Récupérer les tâches d'un projet
