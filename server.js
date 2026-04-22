@@ -34,7 +34,7 @@ app.use(express.static("public"));
 app.use(
     cors({
         origin: process.env.FRONTEND_URL || "http://localhost:5173",
-        methods: ["GET", "POST", "PUT", "DELETE"], //Il faudra surement rajouter plus de méthodes HTTP
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], //Il faudra surement rajouter plus de méthodes HTTP
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true
     })

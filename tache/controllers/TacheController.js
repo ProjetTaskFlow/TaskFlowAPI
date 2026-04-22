@@ -81,24 +81,25 @@ const create = async (req, res) => {
 };
 
 // Modifier une tâche
-const update = async(req, res) => {
+const update = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nom_tache, description, statut, Id_utilisateur,date_echeance, temps_prevu, temps_reel } = req.body;
+        const { nom_tache, description, statut, Id_utilisateur, date_echeance, temps_prevu, temps_reel } = req.body;
 
-        const TacheExiste = await getTaskById(id);
-        if(tacheExiste.length === 0) {
-            return res.status(404).json({ message : "Tâche non trouvée" });
+        const tache = await getTaskById(id);
+        if (tache.length === 0) {
+            return res.status(404).json({ message: "Tâche non trouvée" });
         }
-        const tache = await updateTask(id, { nom_tache, description, statut, Id_utilisateur, date_echeance, temps_prevu, temps_reel });
+
+        const tacheModifiee = await updateTask(id, { nom_tache, description, statut, Id_utilisateur, date_echeance, temps_prevu, temps_reel });
 
         res.json({
-            message : "Tâche modifiée avec succès",
-            tache,
+            message: "Tâche modifiée avec succès",
+            tache: tacheModifiee,
         });
     } catch (error) {
         console.error("Erreur de modification de la tâche", error.message);
-        res.status(500).json({ message : "Erreur de modification de la tâche"});
+        res.status(500).json({ message: "Erreur de modification de la tâche" });
     }
 };
 
@@ -122,29 +123,29 @@ const remove = async (req, res) => {
 };
 
 // Mettre à jour le statut
-const updateStatut = async (req,res) => {
+const updateStatut = async (req, res) => {
     try {
-        const {id} = req.params;
-        const statut = req.body;
+        const { id } = req.params;
+        const { statut } = req.body;
 
         if (!statut) {
-            return res.status(400).json({ message: "Le status est requis"});
+            return res.status(400).json({ message: "Le statut est requis" });
         }
 
-        const tacheExiste = await getTaskById(id);
-
-        if (TacheExiste.length === 0) {
-            return res.status(404).json({ message: "Tâche non trouvée"});
+        const tache = await getTaskById(id);
+        if (tache.length === 0) {
+            return res.status(404).json({ message: "Tâche non trouvée" });
         }
-        const tache = await updateStatutTask(id, statut);
+
+        const tacheModifiee = await updateStatutTask(id, statut);
 
         res.json({
-            message: "Status mis à jour avec succès",
-            tache,
+            message: "Statut mis à jour avec succès",
+            tache: tacheModifiee,
         });
     } catch (error) {
         console.error("Erreur de mise à jour du statut", error.message);
-        res.status(500).json({ message : "Erreur de mise à jour du statut"});
+        res.status(500).json({ message: "Erreur de mise à jour du statut" });
     }
-}
+};
 module.exports = { getAllt, getTByID, getAllByProjet, create, update, remove, updateStatut };
