@@ -12,31 +12,28 @@ const jwt = require("jsonwebtoken");
 // Inscription
 const register = async (req, res) => {
     try {
-        const { nom, prenom, email, mot_de_passe } = req.body;
+        const { nom_utilisateur, prenom_utilisateur, email_utilisateur, mdp_utilisateur } = req.body;
 
         // Vérifier si l'email existe déjà
-        const existingUtilisateur = await findUtilisateurByEmail(email);
+        const existingUtilisateur = await findUtilisateurByEmail(email_utilisateur);
         if (existingUtilisateur.length > 0) {
-            return res.status(400).send({
-                message : "Cet email est déjà utilisé",
-            });
+            return res.status(400).json({ message: "Cet email est déjà utilisé" });
         }
 
         // Hacher le mdp
-        const hash = await hashPassword(mot_de_passe);
+        const hash = await hashPassword(mdp_utilisateur);
 
         // Crée l'utilisateur
         const result = await createUtilisateur({
-            nom_utilisateur: nom,
-            prenom_utilisateur: prenom,
-            email_utilisateur: email,
+            nom_utilisateur,
+            prenom_utilisateur,
+            email_utilisateur,
             mdp_utilisateur: hash,
         });
 
         res.status(201).json({
             message: "Inscription réussie",
             Id_utilisateur: result.insertId,
-            utilisateur: { nom, prenom, email, mot_de_passe },
         });
     } catch (error) {
         console.error("Erreur inscription", error.message);

@@ -25,10 +25,10 @@ const findUtilisateurByEmail = async (email) => {
 const createUtilisateur = async (utilisateurData) => {
     // Extraction des données
     const {
-        nom,
-        prenom,
-        email,
-        mot_de_passe
+        nom_utilisateur,
+        prenom_utilisateur,
+        email_utilisateur,
+        mdp_utilisateur
     } = utilisateurData;
 
     const [result] = await db.query(
