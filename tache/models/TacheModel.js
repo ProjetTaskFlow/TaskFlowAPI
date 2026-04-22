@@ -104,4 +104,12 @@ const deleteTask = async (Id_tache) => {
     return result;
 }
 
-module.exports = { createTask, getAllTasks, getTaskById, updateTask, deleteTask };
+
+// Rechercher une tâche par son titre
+const { searchTasks } = async (search, limit) => {
+    const [rows] = await db.query("SELECT * FROM taches WHERE nom_tache LIKE ? LIMIT ?",
+        [`${search}%`, limit]
+    );
+    return rows;
+}
+module.exports = { createTask, getAllTasks, getTaskById, updateTask, deleteTask, searchTasks };
