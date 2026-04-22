@@ -14,9 +14,6 @@ const register = async (req, res) => {
     try {
         const { nom, prenom, email, mot_de_passe } = req.body;
 
-        // Vérifier si l'email existe déjà (ajouté par Samuel)
-        const existingUtilisateur = await findUtilisateurByEmail(email);
-
         // Vérifier si l'email existe déjà
         const existingUtilisateur = await findUtilisateurByEmail(email);
         if (existingUtilisateur.length > 0) {
