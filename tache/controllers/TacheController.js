@@ -122,7 +122,7 @@ const remove = async (req, res) => {
 };
 
 // Mettre à jour le statut
-const updateStatut = async (req,req) => {
+const updateStatut = async (req,res) => {
     try {
         const {id} = req.params;
         const statut = req.body;
