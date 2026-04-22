@@ -7,6 +7,8 @@ const router = express.Router();
 // GET /api/projets - Récupérer tous les projets
 router.get("/", getAll);
 
+router.post("/", create);
+
 // GET /api/projets/:id - Récupérer un projet par son ID
 router.get('/:id/projet', getById);
 

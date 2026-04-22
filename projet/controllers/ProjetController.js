@@ -40,14 +40,17 @@ const getById = async (req, res) => {
     }
 };
 
-// Créer un nouveau projet
+// Créer un projet
 const create = async (req, res) => {
     try {
-        const { title, description } = req.body;
-        if (!title) {
-            return res.status(400).json({ message: "Le titre est obligatoire" });
+        const { titre, description, date_debut, date_echeance, Id_utilisateur } = req.body;
+
+        if (!titre || !Id_utilisateur) {
+            return res.status(400).json({ message: "titre et Id_utilisateur sont requis" });
         }
-        const projet = await createProjet({ title, description });
+
+        const projet = await createProjet({ titre, description, date_debut, date_echeance, Id_utilisateur });
+
         res.status(201).json({
             message: "Projet créé avec succès",
             projet,
@@ -57,5 +60,36 @@ const create = async (req, res) => {
         res.status(500).json({ message: "Erreur de création du projet" });
     }
 };
+
+module.exports = { getAll, getById, create };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = { getAll, getById, create };
