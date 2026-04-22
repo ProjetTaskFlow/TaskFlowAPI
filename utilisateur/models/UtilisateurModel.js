@@ -34,12 +34,12 @@ const createUtilisateur = async (utilisateurData) => {
     const [result] = await db.query(
         `INSERT INTO utilisateur
         (nom_utilisateur, prenom_utilisateur, email_utilisateur, mdp_utilisateur)
-    VALUE (?, ?, ?, ?)`,
+    VALUES (?, ?, ?, ?)`,
         [
-            nom,
-            prenom,
-            email,
-            mot_de_passe,
+            nom_utilisateur,
+            prenom_utilisateur,
+            email_utilisateur,
+            mdp_utilisateur
         ],
     );
     return result;

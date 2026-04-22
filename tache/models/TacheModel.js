@@ -97,3 +97,19 @@ const deleteTask = async (Id_tache) => {
 
     return result;
 }
+
+
+// Récupérer toutes les tâches
+const { getAllTasks } = async () => {
+    const [rows] = await db.query("SELECT * FROM tache");
+    return rows;
+}
+
+// Rechercher une tâche par son titre
+const { searchTasks } = async (search, limit) => {
+    const [rows] = await db.query("SELECT * FROM taches WHERE titre LIKE ? LIMIT ?",
+        [`${search}%`, limit]
+    );
+}
+
+module.exports = { getAllTasks, getTaskById, searchTasks };
