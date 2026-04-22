@@ -34,6 +34,12 @@ const createTask = async (taskData) => {
     return result;
 };
 
+// Récupérer tous les articles
+const getAllTasks = async () => {
+    const [rows] = await db.query(`SELECT * FROM taches`);
+    return rows;
+};
+
 // Récupérer une tâche par son ID
 const getTaskById = async (Id_tache) => {
     const [rows] = await db.query(`SELECT * FROM taches WHERE Id_tache = ?`,
