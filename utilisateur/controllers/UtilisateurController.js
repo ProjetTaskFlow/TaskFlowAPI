@@ -6,6 +6,8 @@ const {
     hashPassword,
     comparePassword,
     findUtilisateurById,
+    updateUtilisateur,
+    updatePassword,
 } = require("../models/UtilisateurModel");
 const jwt = require("jsonwebtoken");
 
@@ -146,7 +148,46 @@ const getMe = async (req, res) => {
     }
 };
 
-module.exports = { register, login, logout, getMe };
+const updateProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nom_utilisateur, prenom_utilisateur, email_utilisateur } = req.body;
+
+        const utilisateur = await updateUtilisateur(id, { nom_utilisateur, prenom_utilisateur, email_utilisateur });
+
+        res.json({ message: "Profil mis à jour", utilisateur });
+    } catch (error) {
+        console.error("Erreur mise à jour profil", error.message);
+        res.status(500).json({ message: "Erreur mise à jour profil" });
+    }
+};
+
+const changePassword = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { mot_de_passe_actuel, nouveau_mot_de_passe } = req.body;
+
+        const utilisateurs = await findUtilisateurById(id);
+        if (utilisateurs.length === 0) {
+            return res.status(404).json({ message: "Utilisateur introuvable" });
+        }
+
+        const isMatch = await comparePassword(mot_de_passe_actuel, utilisateurs[0].mdp_utilisateur);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Mot de passe actuel incorrect" });
+        }
+
+        await updatePassword(id, nouveau_mot_de_passe);
+
+        res.json({ message: "Mot de passe mis à jour" });
+    } catch (error) {
+        console.error("Erreur changement mot de passe", error.message);
+        res.status(500).json({ message: "Erreur changement mot de passe" });
+    }
+};
+
+
+module.exports = { register, login, logout, getMe, updateProfile, updatePassword };
 
 
 

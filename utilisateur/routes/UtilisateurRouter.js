@@ -2,7 +2,7 @@
 // chemin : /api/utilisateurs
 
 const express = require('express');
-const { register, login, getMe, logout } = require('../controllers/UtilisateurController');
+const { register, login, getMe, logout, updateProfile, changePassword } = require('../controllers/UtilisateurController');
 const { verifyToken } = require('../../middleware/authMiddleware');
 const router = express.Router();
 
@@ -27,6 +27,9 @@ router.post("/login", login);
 // Route protégée
 // POST /api/utilisateurs/logout
 router.post("/logout", logout);
+
+router.put("/:id/profil", verifyToken, updateProfile);
+router.put("/:id/password", verifyToken, changePassword);
 
 module.exports = router;
 

@@ -56,10 +56,34 @@ const comparePassword = async (password, hash) => {
     return await bcrypt.compare(password, hash);
 };
 
+const updateUtilisateur = async (id, { nom_utilisateur, prenom_utilisateur, email_utilisateur }) => {
+    await db.query(
+        `UPDATE utilisateur SET nom_utilisateur = ?, prenom_utilisateur = ?, email_utilisateur = ?
+         WHERE Id_utilisateur = ?`,
+        [nom_utilisateur, prenom_utilisateur, email_utilisateur, id]
+    );
+    const [rows] = await db.query(
+        "SELECT * FROM utilisateur WHERE Id_utilisateur = ?",
+        [id]
+    );
+    return rows[0];
+};
+
+const updatePassword = async (id, newPassword) => {
+    const hash = await bcrypt.hash(newPassword, parseInt(process.env.BCRYPT_ROUNDS) || 10);
+    await db.query(
+        "UPDATE utilisateur SET mdp_utilisateur = ? WHERE Id_utilisateur = ?",
+        [hash, id]
+    );
+    return true;
+};
+
 module.exports = {
     findUtilisateurByEmail,
     findUtilisateurById,
     hashPassword,
     comparePassword,
     createUtilisateur,
+    updatePassword,
+    updateUtilisateur,
 };
