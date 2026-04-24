@@ -25,7 +25,7 @@ const verifyToken = (req, res, next) => {
 
         // Si token valide : on ajoute les infos de l'utilisateur à la requête
         // decoded contient: { id:..., email:... } (c'est défini dans UtilisateurController)
-        req.client = decoded;
+        req.utilisateur = decoded;
         // On passe au controller suivant
         next();
     });
